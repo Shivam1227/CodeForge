@@ -4,7 +4,7 @@ import { Client } from '@stomp/stompjs';
 // Opens one STOMP connection, subscribes to a single submission's topic,
 // calls onMessage for every update. Returns a cleanup function.
 export function subscribeToSubmission(submissionId, onMessage) {
-    const socket = new SockJS('http://localhost/ws');
+    const socket = new SockJS('/ws');
     const client = new Client({
         webSocketFactory: () => socket,
         reconnectDelay: 5000,
@@ -20,7 +20,7 @@ export function subscribeToSubmission(submissionId, onMessage) {
 }
 
 export function subscribeToRun(runId, onMessage) {
-    const socket = new SockJS('http://localhost/ws');
+    const socket = new SockJS('/ws');
     const client = new Client({
         webSocketFactory: () => socket,
         reconnectDelay: 5000,
