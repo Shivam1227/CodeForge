@@ -1,0 +1,88 @@
+.home-page { max-width: 1080px; margin: 0 auto; padding: 40px 24px 60px; }
+.problem-list-status { text-align: center; color: var(--text-dim); margin-top: 60px; }
+
+.welcome-section { margin-bottom: 28px; }
+.welcome-section h1 { font-size: 22px; margin: 0 0 6px; }
+.welcome-subtitle { color: var(--text-dim); font-size: 14px; margin: 0; }
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+.stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-value { font-size: 22px; font-weight: 600; color: var(--accent); }
+.stat-label { font-size: 12px; color: var(--text-dim); }
+
+.problems-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.problems-toolbar h2 { font-size: 18px; margin: 0; }
+
+.problem-search {
+    width: 240px;
+}
+
+.difficulty-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.filter-pill {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.filter-pill:hover { color: var(--text); }
+.filter-pill.active { background: var(--accent); color: var(--accent-contrast);; border-color: var(--accent); font-weight: 600; }
+
+.problem-table {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.problem-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+}
+.problem-row:last-child { border-bottom: none; }
+.problem-row:hover { background: var(--panel-alt); }
+
+.problem-row-left { display: flex; align-items: center; gap: 10px; }
+
+.solved-check {
+    color: var(--success);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.problem-title { font-size: 14px; font-weight: 500; }
+
+.problem-difficulty { font-size: 12px; font-weight: 600; font-family: var(--font-mono); }
+.diff-success { color: var(--success); }
+.diff-warning { color: var(--warning); }
+.diff-danger { color: var(--danger); }

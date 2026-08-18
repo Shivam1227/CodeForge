@@ -1,0 +1,101 @@
+#version: "3.8"
+#services:
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:7.6.0
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#    ports:
+#      - "2181:2181"
+#
+#  kafka:
+#    image: confluentinc/cp-kafka:7.6.0
+#    depends_on:
+#      - zookeeper
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#
+#  redis:
+#    image: redis:7-alpine
+#    ports:
+#      - "6379:6379"
+#
+#  nginx:
+#    image: nginx:1.27-alpine
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"   # lets the container reach your host machine on Linux
+#    depends_on:
+#      - kafka
+
+#After containerizing the application this docker-compose file to be used
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # Now only advertised to other containers on this network — no host access needed anymore
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  redis:
+    image: redis:7-alpine
+
+  judge-api-service:
+    build: ./judge-api-service
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - kafka
+      - redis
+      - mysql
+
+  judge-worker-service:
+    build: ./judge-worker-service
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      HOST_WORK_DIR: ${HOST_WORK_DIR}
+    depends_on:
+      - kafka
+      - mysql
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # lets it command the HOST's Docker daemon
+      - ./worker-tmp:/tmp/judge                       # the shared-path fix from Step 4
+
+  judge-frontend:
+    build: ./judge-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - judge-api-service
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: judge_db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql   # named volume — survives container restarts/recreates
+
+volumes:
+  mysql_data:

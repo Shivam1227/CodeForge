@@ -1,0 +1,21 @@
+# Java
+**/target/
+*.class
+
+# Node
+**/node_modules/
+**/dist/
+
+# Env / secrets — never commit this
+.env
+
+# Worker's runtime scratch space
+worker-tmp/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store

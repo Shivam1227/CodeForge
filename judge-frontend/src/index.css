@@ -1,0 +1,59 @@
+:root {
+  --bg: #0D0F13;
+  --panel: #14171D;
+  --panel-alt: #1B1E25;
+  --border: #262A33;
+  --text: #E9EAED;
+  --text-dim: #8B909C;
+
+  --accent: #B98A55;        /* muted bronze — interactive/active elements only */
+  --accent-dim: #9C7245;    /* hover state for accent */
+  --accent-soft: rgba(185, 138, 85, 0.12); /* subtle active backgrounds */
+  --accent-contrast: #14171D; /* dark text placed on top of accent-colored buttons */
+
+  /* Unchanged, per your instructions — do not touch these */
+  --success: #4ADE80;
+  --danger: #F87171;
+  --warning: #FBBF24;
+
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  font-family: var(--font-ui);
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input {
+  font-family: var(--font-ui);
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+input:focus { border-color: var(--accent-dim); }
+
+.mono { font-family: var(--font-mono); }
